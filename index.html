@@ -1,0 +1,55 @@
+<html>
+    <head>
+        <title>Etch-A-Sketch</title>
+    </head>
+    <style>
+        .container{
+            display: grid;
+            grid-template-columns: repeat(64, 1fr);
+            grid-template-rows: repeat(64, 8px);
+            width: 800px;
+            margin: 0 auto;
+        }
+
+        /* .item:hover{
+            background: red;
+        } */
+    </style>
+    <body>
+        <div class="container">
+            
+        </div>
+        <div class="controls">
+            <button class="clear">Clear</button>
+        </div>
+    </body>
+    <script>
+        const container = document.querySelector('.container');
+        const clearColor = document.querySelector('.clear');
+
+        function makeItems(){
+            for(let i=0; i<64; i++){
+                for(let j=1; j<65; j++){
+                    let item = document.createElement('div');
+                    item.textContent = j;
+                    item.classList.add('item');
+                    container.appendChild(item);
+                }
+            }
+        }
+        makeItems();
+
+        const items = document.querySelectorAll('.item');
+        items.forEach((item)=>{
+            item.addEventListener('mouseover', (e)=>{
+                e.target.style.background = 'red';
+            });
+        });
+
+        clearColor.addEventListener('click', ()=>{
+            items.forEach((item)=>{
+                item.style.background = '';
+            });
+        });
+    </script>
+</html>
