@@ -25,26 +25,38 @@
         </div>
     </body>
     <script>
-        let gridSize = 32;
+        let gridSize = 64;
         const container = document.querySelector('.container');
         const clearColor = document.querySelector('.clear');
         const resetGrid = document.querySelector('.reset');
         const sketchColor = document.querySelector('.sketchColor');
 
 
-        function makeItems(){
-            for(let i=0; i<gridSize; i++){
-                for(let j=1; j<gridSize+1; j++){
+        function makeItems(size){
+            for(let i=0; i<size; i++){
+                for(let j=1; j<size+1; j++){
                     let item = document.createElement('div');
-                    // item.textContent = j;
+                    item.textContent = '.';
                     item.classList.add('item');
+                    // item.setAttribute("id", "item");
                     container.appendChild(item);
                 }
             }
-            container.style.gridTemplateColumns = 'repeat('+gridSize+',1fr)';
-            container.style.gridTemplateRows = 'repeat('+gridSize+')';
+            container.style.gridTemplateColumns = 'repeat('+size+',1fr)';
+            container.style.gridTemplateRows = 'repeat('+size+')';
         }
-        makeItems();
+
+        makeItems(gridSize);
+
+        function gridReset(){
+            var lists = document.querySelectorAll(".item");
+            lists.forEach((list)=>{
+                var parentDiv = list.parentNode;
+                    parentDiv.removeChild(list);	
+            })
+            let gridSize = prompt('What is the new grid value?');
+            makeItems(Number(gridSize));
+        }
 
         const items = document.querySelectorAll('.item');
         items.forEach((item)=>{
@@ -58,5 +70,11 @@
                 item.style.background = '';
             });
         });
+
+        resetGrid.addEventListener('click', ()=>{
+            gridReset();
+        })
+
+        
     </script>
 </html>
