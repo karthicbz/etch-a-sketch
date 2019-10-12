@@ -5,13 +5,51 @@
     <style>
         body{
             width: 800px;
-            margin: 50px auto 0;
+            height: 800px;
+            margin: 20px auto 0;
             box-sizing: border-box;
         }
         .container{
+            width: 100%;
+            max-height: 100%;
             display: grid;
-            margin-bottom: 50px;
+            margin-bottom: 20px;
+            border: 1px solid black;
+            overflow: hidden;
         }
+
+        .item{
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .clear, .reset{
+            padding: 10px;
+            background-color: darkorange;
+            border: 2px solid pink;
+            width: 100px;
+            outline: none;
+            margin-left: 50px;
+        } 
+
+        .controls{
+            background-color: bisque;
+            text-align: center;
+            padding: 8px;
+            border: 5px solid palevioletred;
+        }
+
+        ul{
+            display: inline-block;
+            margin: 0;
+        }
+
+        li{
+            display: inline;
+            list-style-type: none;
+            font-size: 15px;
+            padding: 5px;
+        }
+
     </style>
     <body>
         <div class="container">
@@ -20,12 +58,15 @@
         <div class="controls">
             <button class="clear">Clear</button>
             <button class="reset">Reset</button>
-            <input type="color" name="favcolor" value="#ff0000"
-            class="sketchColor">
+            <ul>
+                <li>Choose Color</li>
+                <li><input type="color" name="favcolor" value="#ff0000"
+                    class="sketchColor"></li>
+            </ul>
         </div>
     </body>
     <script>
-        let gridSize = 64;
+        let gridSize = 32;
         const container = document.querySelector('.container');
         const clearColor = document.querySelector('.clear');
         const resetGrid = document.querySelector('.reset');
@@ -36,14 +77,14 @@
             for(let i=0; i<size; i++){
                 for(let j=1; j<size+1; j++){
                     let item = document.createElement('div');
-                    item.textContent = '.';
+                    item.textContent = '\xa0';
                     item.classList.add('item');
                     // item.setAttribute("id", "item");
                     container.appendChild(item);
                 }
             }
-            container.style.gridTemplateColumns = 'repeat('+size+',1fr)';
-            container.style.gridTemplateRows = 'repeat('+size+')';
+            container.style.gridTemplateColumns = 'repeat('+size+', minmax(0,1fr))';
+            container.style.gridTemplateRows = 'repeat('+size+', minmax(0, 1fr))';
         }
 
         makeItems(gridSize);
@@ -54,9 +95,26 @@
                 var parentDiv = list.parentNode;
                     parentDiv.removeChild(list);	
             })
-            let gridSize = prompt('What is the new grid value?');
+            let gridSize = prompt('What is the new grid value?', 32);
             makeItems(Number(gridSize));
         }
+
+        resetGrid.addEventListener('click', ()=>{
+            gridReset();
+
+            const items = document.querySelectorAll('.item');
+            items.forEach((item)=>{
+                item.addEventListener('mouseover', (e)=>{
+                    e.target.style.background = sketchColor.value;
+                });
+            });
+
+            clearColor.addEventListener('click', ()=>{
+                items.forEach((item)=>{
+                    item.style.background = '';
+                });
+            });
+        })
 
         const items = document.querySelectorAll('.item');
         items.forEach((item)=>{
@@ -70,11 +128,6 @@
                 item.style.background = '';
             });
         });
-
-        resetGrid.addEventListener('click', ()=>{
-            gridReset();
-        })
-
         
     </script>
 </html>
