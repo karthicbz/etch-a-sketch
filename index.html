@@ -22,7 +22,7 @@
             border: 1px solid rgba(0, 0, 0, 0.1);
         }
 
-        .clear, .reset{
+        .clear, .reset, .size{
             padding: 10px;
             background-color: darkorange;
             border: 2px solid pink;
@@ -56,6 +56,7 @@
             
         </div>
         <div class="controls">
+            <button class="size"></button>
             <button class="clear">Clear</button>
             <button class="reset">Reset</button>
             <ul>
@@ -71,6 +72,8 @@
         const clearColor = document.querySelector('.clear');
         const resetGrid = document.querySelector('.reset');
         const sketchColor = document.querySelector('.sketchColor');
+        const size = document.querySelector('.size');
+        size.textContent = gridSize+' X '+gridSize;
 
 
         function makeItems(size){
@@ -96,6 +99,14 @@
                     parentDiv.removeChild(list);	
             })
             let gridSize = prompt('What is the new grid value?', 32);
+            if(gridSize < 32){
+                alert('Minimum grid size would be 32');
+                gridSize = 32;
+            }else if(gridSize > 120){
+                alert('Maximum grid size would be 120');
+                gridSize = 120;
+            }
+            size.textContent = gridSize+' X '+gridSize;
             makeItems(Number(gridSize));
         }
 
